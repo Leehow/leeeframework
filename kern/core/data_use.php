@@ -1,53 +1,100 @@
 <?php
 /*
- * data_use::equal($value1,$value2)					判定两个数据是否相等
- * data_use::get($value1,$value2)					将后一个数据赋予前一变量
- * data_use::check_null($value)						验证变量是否为NULL
- * data_use::get_null($value)						将变量设为NULL
- * data_use::register($space,$value)				注册对象，将其存入session
+ * data_use::register($space,$value)				注册对象，将其存入coockie
  * data_use::register_get($space)					获取注册的对象
  * data_use::register_check_null($space)			验证注册对象是否为空
  * data_use::register_delet($space)					毁掉一个注册的对象，若不填写，则毁掉所有session
  */
 class data_use {
 	
-	//设定memcache 如果不用memcache注册可以修改这个地方
+	//设定memcache,session 如果不用session注册可以修改这个地方
 	static function register_static_set($key,$value){
-		$mmc=memcache_init();
-	    if($mmc==false)
-	    echo "那个坑爹的Memcache加载失败啦！笨蛋！\n";
-	    else{
-	        memcache_set($mmc,'tk_'.$key,$value);
-	    }
+            $result=self::ses_reg_set('tk_'.$key, $value);
+            return $result;
 	}
 	
-	//获取memcache
+	//获取memcache,session
 	static function register_static_get($key){
-		$mmc=memcache_init();
-	    if($mmc==false)
-	    echo "那个坑爹的Memcache加载失败啦！笨蛋！\n";
-	    else{
-			if($out=memcache_get($mmc,'tk_'.$key))
-			return $out;
-			else
-			return false;
-	    }
+            $result=self::ses_reg_get('tk_'.$key);
+            return $result;
 	}
 	
 	
-	//删除memcache
+	//删除memcache,session
 	static function register_static_delete($key){
-		$mmc=memcache_init();
+            $result=self::ses_reg_del('tk_'.$key);
+            return $result;
+	}
+	
+        
+        //用memcache的方式建立,获取和删除注册数据-------------------------------------
+	static function mem_reg_set($key,$value){
+            $mmc=memcache_init();
+	    if($mmc==false)
+	    echo "那个坑爹的Memcache加载失败啦！笨蛋！\n";
+	    else{
+	        memcache_set($mmc,$key,$value);
+	    }
+        }
+        
+        static function mem_reg_get($key){
+            $mmc=memcache_init();
+	    if($mmc==false)
+	    echo "那个坑爹的Memcache加载失败啦！笨蛋！\n";
+	    else{
+                $out=memcache_get($mmc,$key);
+                if($out){
+                    return $out;
+                }
+                else{
+                    return false;
+                }
+			
+	    }
+        }
+        
+        static function mem_reg_del($key){
+            $mmc=memcache_init();
 	    if($mmc==false)
 	    echo "那个坑爹的Memcache加载失败啦！笨蛋！\n";
 	    else{
 		memcache_delete($mmc,$key);
                 return 1;
 	    }
-	}
-	
-	
-	//注册对象，将其存入cookie
+        }
+        
+        //用memcache的方式结束-------------------------------------
+        
+        //用session的方式建立,获取和删除注册数据-------------------------------------
+        static function ses_reg_set($key,$value){
+            session_start();
+            $_SESSION[$key] = $value;
+            return 1;
+        }
+        
+        static function ses_reg_get($key){
+            session_start();
+            $out=$_SESSION[$key];
+            if($out){
+                return $out;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        static function ses_reg_del($key){
+            session_start();
+            session_unset(); 
+            session_destroy(); 
+            return 1;
+        }
+        //用session的方式结束-------------------------------------
+
+
+
+
+        //注册对象，将其存入cookie
 	static function register($space,$value) {
 		setcookie($space, $value, time()+1800);
 	}
@@ -185,21 +232,6 @@ class data_use {
         }
         
         
-//        static function limit_words($str,$num){
-//            $cout=count($str);
-//            if($cout>10000){
-//                die('字符太长，别太坑爹了！');
-//            }
-//            $result=null;
-//            foreach ($str as $w){
-//                $result=$result.$w;
-//                --$num;
-//                if($num<=0){
-//                    break;
-//                }
-//            }
-//            return $result;
-//        }
         
 	
 }
