@@ -45,11 +45,22 @@ class usr {
 		else 
 		return 1;
 	}
-	
+	//在数据库中查询验证是否存在
+	function db_exist($where) {
+		$result=sql_use::select_row($this->table, $where);
+		if (!empty($result))
+		return $result;
+		else
+		return false;
+	}
+        
 	//验证用户名是否存在，存在则返回1
 	function check_usr_exist($usr) {
-		$check=data_db_use::ini($this->table, $this->usr_col);
-		if (!$check->check_exist($usr))
+                $check=self::ini();
+                $where="$this->usr_col='$usr'";
+                $result=$check->db_exist($where);
+                
+		if (!$result)
 		return "找不到用户名";
 		else 
 		return 1;
@@ -57,8 +68,10 @@ class usr {
 	
 	//验证密码是否正确，不正确则返回0
 	function check_psw($usr,$psw) {
-		$check=data_db_use::ini($this->table, array($this->usr_col,$this->psw_col));
-		if (!$result=$check->check_psw($this->usr, $this->psw))
+                $check=self::ini();
+                $where=  $this->usr_col."='$usr' and ".$this->psw_col."='$psw'";
+                $result=$check->db_exist($where);
+		if (!$result)
 		return 0;
 		else 
 		return $result;
@@ -157,38 +170,10 @@ class usr {
 
 
 class user_manage {
-//    规定id
-    static protected $kind_user    = array(
-                        usr_name,
-                        usr_ip,
-                        usr_gender,     //性别
-                        usr_local,      //地点
-                        usr_tel,        //电话
-                        usr_qq,         //QQ
-                        usr_email,      //email
-                        usr_pic,        //头像
-                        usr_msg,        //消息数量
-                        usr_msg_tap,    //消息id
-                        usr_msg_hide    //过期消息id
-                        );
-
 //    创建用户列表
     static function create($userid){
-        $create_user    = array(
-                        usr_name	=> "用户_".$userid,
-                        usr_ip          => $_SERVER["REMOTE_ADDR"],
-                        usr_gender	=> 0,    //性别
-                        usr_local	=> 0,    //地点
-                        usr_tel         => 0,    //电话
-                        usr_qq          => 0,    //QQ
-                        usr_email	=> 0,    //QQ
-                        usr_pic         => 0,     //pic
-                        usr_msg         => 0     //消息
-                        );
-//        $ku=self::$kind_user;
-//        $num=count($ku);
+        $create_user    = get_kind::ini_user($userid);
 //        遍历所有跟用户有关的kind
-        
         foreach ($create_user as $k=>$v){
             sql_use_k::insert($v, $k, $userid, $userid);
         }
@@ -200,10 +185,11 @@ class user_manage {
     static function select($kind=null, $userid=null, $page=null, $pagesize=null){
         if(!$userid){
             $userid= data_use::get_usr('userid');
-            sql_use_f::update_one_ku($userid, "usr_ip", $_SERVER["REMOTE_ADDR"]);
+            $ip_now=$_SERVER["REMOTE_ADDR"];
+            sql_use_k::update($ip_now, null, "usr_ip", $userid);
         }
         if(!$kind){
-            $kind=self::$kind_user;
+            $kind=  get_kind::$kind_user;
             
         }
         if(!$pagesize){
@@ -212,9 +198,9 @@ class user_manage {
         if(!$page){
             $page=0;
         }
-        $where=  sql_use_f::$data_columns[upid]."=".$userid;
-        $result= sql_use_f::select_page($kind,$page,$pagesize,null,$where);
-//        $result= sql_use_f::select_where(null,"upid", $userid, $kind);
+        
+        $where= UPID."=".$userid;
+        $result=  sql_use_k::select($kind, $where, $pagesize, $page);
         
         
         return $result;
@@ -222,12 +208,12 @@ class user_manage {
     
 //    修改用户列表，kind和value都可以是数组，要对应改。禁止修改别人的用户信息！！
     static function change($id,$value){
-        return sql_use_k::update($value, $id);
+        $result= sql_use_k::update($value, $id);
+        return $result;
     }
 //    删除自己的用户列表~会删掉所有发的信息
     static function delete(){
         $userid=data_use::get_usr('userid');
-        $where=  sql_use_k::$data_columns[author]."=".$userid;
         sql_use_k::delete_w("1",$userid);
         return 1;
     }
@@ -241,7 +227,7 @@ class user_manage {
     }
 //    删除用户列表
     static function delete_admin($userid){
-        $where=  sql_use_k::$data_columns[upid]."=".$userid;
+        $where=  UPID."=".$userid;
         sql_use_k::delete_w($where, $userid);
     }
 }

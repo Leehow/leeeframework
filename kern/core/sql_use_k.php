@@ -3,7 +3,6 @@
  * 针对新的数据库结构进行php的特殊定制和优化
  * select项目全部都用page来控制数量     无$pagesize默认30       无$order默认以id倒叙列出
  * 全是静态类,使用时只函数前加sql_use_k::就可以
- * 注意:columns只需简单写(例如:upid kind)
  * 先介绍简单用法
  * sql_use_k::select("beutifulgirl");           选取类别为beutifulgirl的数据,限制数量30,ID倒叙列出
  * sql_use_k::insert("good","name");            加入一条新内容,类别为name,值为good
@@ -27,16 +26,16 @@
 
 class sql_use_k {
     //    以后要是要改配置文件啥的别忘了改这里
-    static public $data_table                 = "data";
-    static public $data_id                    = "data_id";
+    static public $data_table                 = TABLE;
+    static public $data_id                    = ID;
     static public $data_columns               = array(
-                        upid	=> "data_upid",
-                        author	=> "data_author",
-                        kind	=> "data_kind",
-                        content => "data_content",
-                        time	=> "data_time",
-                        createtime	=> "data_createtime",
-                        changetime	=> "data_changetime"
+                        "upid"          => UPID,
+                        "author"	=> AUTHOR,
+                        "kind"          => KIND,
+                        "content"       => CONTENT,
+                        "time"          => TIME,
+                        "createtime"	=> CREATETIME,
+                        "changetime"	=> CHANGETIME
                 );
     
     //根据数据表的项目选取数据
@@ -52,7 +51,6 @@ class sql_use_k {
                 else{
                     $pluskind="";
                 }
-                $columns= self::$data_columns[$columns];
                 $columns= self::$data_id.$pluskind.",".$columns;
             }
 
