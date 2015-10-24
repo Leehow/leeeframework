@@ -3,6 +3,7 @@
  * 针对新的数据库结构进行php的特殊定制和优化
  * select项目全部都用page来控制数量     无$pagesize默认30       无$order默认以id倒叙列出
  * 全是静态类,使用时只函数前加sql_use_k::就可以
+ * 注意:columns只需简单写(例如:upid kind)
  * 先介绍简单用法
  * sql_use_k::select("beutifulgirl");           选取类别为beutifulgirl的数据,限制数量30,ID倒叙列出
  * sql_use_k::insert("good","name");            加入一条新内容,类别为name,值为good
@@ -39,18 +40,26 @@ class sql_use_k {
                 );
     
     //根据数据表的项目选取数据
-    static function select_c($columns,$where=null,$page=null,$pagesize=null,$order=null){
+    static function select_c($columns,$where=null,$pagesize=null,$page=null,$order=null){
         if($columns){           //如果有column的话加个id和kind，以后用columns不加id和kind
             if("id"==$columns){
                 $columns= self::$data_id;
             }
             else{
-                $columns= self::$data_id.",".self::$data_columns[kind].",".$columns;
+                if("kind"!=$columns){
+                    $pluskind=",".self::$data_columns[kind];
+                }
+                else{
+                    $pluskind="";
+                }
+                $columns= self::$data_columns[$columns];
+                $columns= self::$data_id.$pluskind.",".$columns;
             }
 
         }
-        if(!$order)
+        if(!$order){
             $order=  self::$data_id." desc";
+        }
 
         if(!$page){
             $page=0;
@@ -59,21 +68,19 @@ class sql_use_k {
         $limit_num=$pagesize;
         $limit=$limit_begin.",".$limit_num;
             
-        if(!$no_u){
-            sql_use::update_nowtime(self::$data_table, self::$data_columns[time], $where);//找一次更新一次时间
-        }
+        sql_use::update_nowtime(self::$data_table, self::$data_columns[time], $where);//找一次更新一次时间
         $result= sql_use::select(self::$data_table,$columns,$where,$order,$limit,false);//注意最后一个变量为true则显示sql语句
         return $result;
     }
     
     //针对where对数据进行选取
-    static function select_w($where,$page=null,$pagesize=null){
-        $result= self::select_c(null, $where, $page, $pagesize);
+    static function select_w($where,$pagesize=null,$page=null){
+        $result= self::select_c(null, $where, $pagesize, $page);
         return $result;
     }
     
     //针对内容的项目来选取数据$kind是自定义类别,性别年龄等等
-    static function select($kind=null,$where=null,$page=null,$pagesize=null,$order=null){
+    static function select($kind=null,$where=null,$pagesize=null,$page=null,$order=null){
         if($kind){
             //类别是数组的情况
             if(is_array($kind)){
@@ -102,7 +109,7 @@ class sql_use_k {
                 $where=$kind_where;
             }
         }
-        $result= self::select_c(null, $where, $page, $pagesize, $order);
+        $result= self::select_c(null, $where, $pagesize, $page, $order);
 
         return $result;
     }
@@ -136,10 +143,19 @@ class sql_use_k {
                 if(!$author){
                     die("请登录后重试！");
                 }
+                
                 $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         }
         if(!$columns){
             $columns=self::$data_columns[content];
+        }
+        else{
+            if("id"==$columns){
+                $columns=  self::$data_id;
+            }
+            else{
+                $columns=  self::$data_columns[$columns];
+            }
         }
         
         sql_use::update_nowtime(self::$data_table, self::$data_columns[changetime], $where);

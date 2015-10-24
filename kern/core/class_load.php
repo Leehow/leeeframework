@@ -23,7 +23,7 @@ class class_load {
 	
 	static function get_depend($updir="./") {
 		self::load($updir, self::core_dir, "sql_use");
-                self::load($updir, self::core_dir, "sql_use_new");      //这个载入针对性写的sql_use类
+                self::load($updir, self::core_dir, "sql_use_k");      //这个载入针对性写的sql_use类
 		self::load($updir, self::core_dir, "data_use");
 	}
 	
