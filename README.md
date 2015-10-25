@@ -16,14 +16,10 @@ data_use::register_get('tkid');                         //获取tkid
 data_use::get_usr('userid');                            //获取本用户id
 
 
-
 内容类别输出的时候用散列表加用户id*2的方法加密，最后回到搜索的时候除以2减去用户id得到散列id
-
-
-
-
-
-
+lib/md5.php
+modul/change_psw.php
+以上两个文件不是通用文件,创建新项目时需要重新拷贝
 
 
 

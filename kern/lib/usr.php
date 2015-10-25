@@ -1,12 +1,17 @@
 <?php
 /*验证和注册用户组件
- * $obj=register::ini()                         初始化类
- * usr::register($usr,$psw)			验证若没有用户名重复则将用户数据录入数据库中
+ * $obj=register::ini()                                 初始化类
+ * usr::register($usr,$psw)                             验证若没有用户名重复则将用户数据录入数据库中
  * usr::login($usr,$psw)				验证若用户合法则登录成功
- * usr::logout()                                       注销
+ * usr::logout()                                        注销
  * usr::change_psw($usr,$psw)                           静态方法修改密码(更方便)
  * 
- * 重构见尾
+ * user_manage::create($userid)                         创建用户初始化参数,userid是用户的id
+ * user_manage::select($kind,$userid,$page,$pagesize)   查询用户的信息,kind是类别参数,如果没有kind则获取所有用户信息
+ * user_manage::change($kid,$value)                     修改用户信息,kid可以是id号或kind,value是要修改的值(仅自己)
+ * user_manage::delete()                                删除用户信息(仅自己)
+ * user_manage::change_admin($userid,$kind,$value)      修改用户信息,userid是用户id
+ * user_manage::delete_admin($userid)                   删除用户信息,userid是用户id
  */
 class usr {
 	protected $table    = "usr";
@@ -207,10 +212,17 @@ class user_manage {
     }
     
 //    修改用户列表，kind和value都可以是数组，要对应改。禁止修改别人的用户信息！！
-    static function change($id,$value){
-        $result= sql_use_k::update($value, $id);
+    static function change($kid,$value){
+        $ifint=  is_numeric($kid);
+        if(!$ifint){
+            $result= sql_use_k::update($value, null, $kid);
+        }
+        else{
+            $result= sql_use_k::update($value, $kid);
+        }
         return $result;
     }
+    
 //    删除自己的用户列表~会删掉所有发的信息
     static function delete(){
         $userid=data_use::get_usr('userid');
@@ -221,8 +233,14 @@ class user_manage {
     
     
     //    修改用户列表，kind和value都可以是数组，要对应
-    static function change_admin($upid,$kind,$value){
-        $result=  sql_use_k::update($value, null, $kind, $upid, $upid);
+    static function change_admin($userid,$kid,$value){
+        $ifint=  is_numeric($kid);
+        if(!$ifint){
+            $result= sql_use_k::update($value, null, $kid, $userid, $userid);
+        }
+        else {
+            $result= sql_use_k::update($value, $kid, null, $userid, $userid);
+        }
         return $result;
     }
 //    删除用户列表

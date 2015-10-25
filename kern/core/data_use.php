@@ -9,13 +9,15 @@ class data_use {
 	
 	//设定memcache,session 如果不用session注册可以修改这个地方
 	static function register_static_set($key,$value){
-            $result=self::ses_reg_set('tk_'.$key, $value);
+            $result=self::ses_reg_set('tk_'.$key, $value);   //session方法
+//            $result=self::mem_reg_set('tk_'.$key, $value); //memcache方法
             return $result;
 	}
 	
 	//获取memcache,session
 	static function register_static_get($key){
             $result=self::ses_reg_get('tk_'.$key);
+//            $result=self::mem_reg_get('tk_'.$key);
             return $result;
 	}
 	
@@ -23,6 +25,7 @@ class data_use {
 	//删除memcache,session
 	static function register_static_delete($key){
             $result=self::ses_reg_del('tk_'.$key);
+//            $result=self::mem_reg_del('tk_'.$key);
             return $result;
 	}
 	
