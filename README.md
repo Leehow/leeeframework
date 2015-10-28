@@ -4,9 +4,21 @@
 将Leeframework.sql导入数据库中(怎么导自己百度)
 修改根目录下的mysql_config.php设置自己的数据库信息
 
+# 数据表的字段
+数据库是树型结构
+TABLE                   数据表的表名
+ID                      数据的id
+UPID                    数据的上级id
+AUTHOR                  录入数据的作者
+KIND                    数据的种类
+CONTENT                 数据的内容
+TIME                    数据最后修改时间
+CREATETIME              数据录入的时间
+CHANGETIME              数据最后修改的时间
 
+# 其他
 
-加两个重要的全局变量
+加几个重要的全局变量
 usr_use::checklogin();                                  //验证用户是否登录
 data_use::register_get('tkid');                         //获取tkid
 data_use::get_usr('userid');                            //获取本用户id
@@ -20,20 +32,5 @@ modul/change_psw.php
 
 
 
-
-
-
-
-
-数据库是树型结构
-TABLE                   数据表的表名
-ID                      数据的id
-UPID                    数据的上级id
-AUTHOR                  录入数据的作者
-KIND                    数据的种类
-CONTENT                 数据的内容
-TIME                    数据最后修改时间
-CREATETIME              数据录入的时间
-CHANGETIME              数据最后修改的时间
 
 
