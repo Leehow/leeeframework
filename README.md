@@ -1,10 +1,10 @@
 # LeeFramework
 
-# mysql部分
+### mysql部分
 <p>将Leeframework.sql导入数据库中(怎么导自己百度)</p>
 <p>修改根目录下的mysql_config.php设置自己的数据库信息</p>
 
-# 数据表的字段
+### 数据表的字段
 <p>数据库是树型结构</p>
 <ul>
 <li>TABLE                   数据表的表名</li>
@@ -18,7 +18,7 @@
 <li>CHANGETIME              数据最后修改的时间</li>
 </ul>
 
-# 其他
+### 其他
 
 加几个重要的全局变量
 <p>usr_use::checklogin();                                  //验证用户是否登录</p>
