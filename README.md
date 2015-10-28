@@ -1,12 +1,8 @@
-以后一些备注请放在这里！！
+# LeeFramework
 
-
-
-
-我在kern/core/sql_use_new.php是个新文件对sql_use里面的函数根据新数据库的结构进行了重写
-但是直接把配置文件里的内容往里放了，以后改config.php的时候别忘了该这里！！！
-
-
+# mysql部分
+将Leeframework.sql导入数据库中(怎么导自己百度)
+修改根目录下的mysql_config.php设置自己的数据库信息
 
 
 
@@ -30,13 +26,14 @@ modul/change_psw.php
 
 
 数据库是树型结构
-$config->data_table                     数据表的表名
-$config->data_columns[id]               数据的id
-$config->data_columns[upid]             数据的上级id
-$config->data_columns[author]           录入数据的作者
-$config->data_columns[kind]             数据的种类
-$config->data_columns[content]          数据的内容
-$config->data_columns[time]             数据最后修改时间
-$config->data_columns[ctime]            数据录入的时间
+TABLE                   数据表的表名
+ID                      数据的id
+UPID                    数据的上级id
+AUTHOR                  录入数据的作者
+KIND                    数据的种类
+CONTENT                 数据的内容
+TIME                    数据最后修改时间
+CREATETIME              数据录入的时间
+CHANGETIME              数据最后修改的时间
 
 

@@ -1,4 +1,7 @@
 <?php
+//用sae的童鞋可以直接把这段注释
+define("E_ErrParameter" , "Parameter ERROR");//错误提示
+define("E_ErrForbidden" , "Forbidden ERROR");
 //对数据表的columns做定义
 define("TABLE"     ,"data" );
 define("ID"        ,"data_id" );

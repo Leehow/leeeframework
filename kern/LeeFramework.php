@@ -1,9 +1,9 @@
 ﻿<?php
 /******************************************************************
 *
-##  Project:LeePHP,A concise and easy framework for PHP
-##  Copyright: 2014 All rights reserved
-##  version: 0.10.1
+##  Project: LeePHP,A concise and easy framework for PHP
+##  Copyright: 2014-2015 All rights reserved
+##  version: 0.10.2
 ##  Author: leehow <leehow2005@126.com>
 *
 ##  File: LeeFramework.php
