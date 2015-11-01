@@ -53,12 +53,27 @@ riji(日记).尽量用英文命名更加高速快捷
 cont组件为静态类直接可以用content::来加载
 <br />
 ### content::select($kind_con, $kind, $page, $pagesize, $where, $ordercolumns, $deasc)
-content::select(数据类别, 从属数据类别(可数组), $page=0页码(默认0第一页), $pagesize每页数据数量(默认30), $where(sql语句里的where), $ordercolumns(sql语句里的order的字段), $deasc(排序方式asc或desc));
-<br />获取数据函数,除了前两个参数其他都可以为空.由于数据库的结构使得获取数据时需要同时载入从属数据,比如blog中文章载入后需要载入浏览量,回复量等从属数据
+content::select(数据类别, 从属数据类别(可数组), 页码(默认0第一页), 每页数据数量(默认30), $where(sql语句里的where), $ordercolumns(sql语句里的order的字段), $deasc(排序方式asc或desc));
+<br /><br />获取数据函数,除了前两个参数其他都可以为空.由于数据库的结构使得获取数据时需要同时载入从属数据,比如blog中文章载入后需要载入浏览量,回复量等从属数据
 <br />
 <br />
 ### content::select_simple($kind, $page, $pagesize, $where, $ordercolumns, $deasc);
-<br />只载入一个类别的数据,比如blog中只有文章没有点击量回复量等从属数据.
+只载入一个类别的数据,比如blog中只有文章没有点击量回复量等从属数据.
+### content::check($where)
+只通过where来获取数据
+### content::insert($content,$kind,$upid,$limitwords);
+content::insert(要录入数据库的数据,类别,父id(当此类别为从属类别时使用),字符数限制(默认1000字符))
+<br /><br />这个函数是将数据录入数据库,很简单不解释,但仅仅登录过的用户才能使用
+### content::insert_sudo($content,$author,$kind, $upid, $limitwords);
+$author是作者,也就是录入数据的用户.这个函数可以所有用户使用,无论是否登录过
+### content::change($conid,$content,$columns);
+content::change(要修改的id,要修改的内容,字段);
+<br />修改数据不解释,同样需要登录后使用
+### content::change_sudo($conid,$content,$where,$columns);
+这个也是所有用户都可以使用,但是加了个where参数
+### content::delete($conid,$upid,$kind)
+content::delete(内容的id,父id,类别)
+<br />需要删除的位置,这个也容易理解
 
 
 
