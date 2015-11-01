@@ -41,21 +41,25 @@ lee::lib_load("cont");
 <br />
 //用这句话先载入cont组件,组件位置在core/lib/里面,cont组件主要作用是获取和存储内容型数据,比如一个blog的文章,而用户信息处理则不用这个组件存取.具体参数后面回讲
 <br />
-$content    = $_POST['content'];     //获取内容,将数据存在$content中
-content::insert($content,"kind");  //将数据存入数据库,kind是数据的类别,类别名称可以自定义,方便管理使用.例如blog中可以存储一个数据类别是wenzhang(文章),
-riji(日记).尽量用英文命名更加高速快捷
 <br />
+$content    = $_POST['content'];     <br />//获取内容,将数据存在$content中<br /><br />
+content::insert($content,"kind");  <br />//将数据存入数据库,kind是数据的类别,类别名称可以自定义,方便管理使用.例如blog中可以存储一个数据类别是wenzhang(文章),
+riji(日记).尽量用英文命名更加高速快捷
+<br /><br />
 好了,那么这个存储数据进数据库的模块就写好了,3行搞定,有木有很简单高效,那么完美来介绍下各个组件
 
 
 ## cont组件
 cont组件为静态类直接可以用content::来加载
 <br />
+### content::select($kind_con, $kind, $page, $pagesize, $where, $ordercolumns, $deasc)
 content::select(数据类别, 从属数据类别(可数组), $page=0页码(默认0第一页), $pagesize每页数据数量(默认30), $where(sql语句里的where), $ordercolumns(sql语句里的order的字段), $deasc(排序方式asc或desc));
 <br />获取数据函数,除了前两个参数其他都可以为空.由于数据库的结构使得获取数据时需要同时载入从属数据,比如blog中文章载入后需要载入浏览量,回复量等从属数据
 <br />
-content::select_simple(类别, $page=0, $pagesize=NULL, $where=null, $ordercolumns=null, $deasc=null);
+<br />
+### content::select_simple($kind, $page, $pagesize, $where, $ordercolumns, $deasc);
 <br />只载入一个类别的数据,比如blog中只有文章没有点击量回复量等从属数据.
+
 
 
 
