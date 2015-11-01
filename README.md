@@ -48,7 +48,7 @@ riji(日记).尽量用英文命名更加高速快捷
 <br /><br />
 好了,那么这个存储数据进数据库的模块就写好了,3行搞定,有木有很简单高效,那么完美来介绍下各个组件
 
-
+<br /><br />
 ## cont组件
 cont组件为静态类直接可以用content::来加载,本组件作用用于查看和修改数据
 <br />
@@ -75,6 +75,7 @@ content::change(要修改的id,要修改的内容,字段);
 content::delete(内容的id,父id,类别)
 <br />需要删除的位置,这个也容易理解
 
+<br /><br />
 ## reply组件
 reply组件用来查看和修改回复
 ### reply::select($cid, $page, $pagesize, $ordercolumns, $deasc)
@@ -86,6 +87,7 @@ reply组件用来查看和修改回复
 ### reply::delete($reid)
 删除回复内容
 
+<br /><br />
 ## usr组件
 usr组件用于管理用户信息,针对用户usr表,与data表无关
 ### usr::register($usr,$psw)
@@ -97,6 +99,7 @@ usr组件用于管理用户信息,针对用户usr表,与data表无关
 ### usr::logout()
 注销用户
 
+<br /><br />
 ## user_manage组件
 user_manage组件用于用户扩展信息的管理
 ### user_manage::select($kind, $userid, $page, $pagesize)
@@ -112,6 +115,56 @@ user_manage::select(类别, 用户id, 页码, 每页多少数据)
 未登录状态下的用户信息修改
 ### user_manage::delete_admin($userid)
 未登录状态下用户信息删除(更慎用)
+
+<br /><br /><br /><br />
+
+## 核心组件
+核心组件包括以下组件,位置在./kern/core/文件当中
+<ul>
+<li>class_load.php</li>
+<li>data_use.php</li>
+<li>sql_use.php</li>
+<li>sql_use_k.php</li>
+</ul>
+<br />
+class_load.php作用是文件系统,文件的位置的处理
+<br />
+data_use.php对数据的一些简单处理
+<br />
+sql_use.php和sql_use_k.php是最重要的!!!它们作用是数据库的交互,执行差删改查以及一些常用库函数
+<br />
+<br />
+## sql_use_k组件
+这个组件的作用是对数据进行差删改查等简单操作,
+<p>先介绍简单用法</p>
+<ul>
+<li>sql_use_k::select("beutifulgirl");           选取类别为beutifulgirl的数据,限制数量30,ID倒叙列出</li>
+<li>sql_use_k::insert("good","name");            加入一条新内容,类别为name,值为good</li>
+<li>sql_use_k::update("sfdsd",1232);             修改id为1232的值为sfdsd</li>
+<li>sql_use_k::delete(1232);                     删除id为1232的数据</li>
+<li>sql_use_k::add_one(123);                     给id为123的数字型数据+1</li>
+<li>sql_use_k::del_one(123);                     给id为123的数字型数据-1</li>
+</ul>
+### select_c($columns,$where,$page,$pagesize,$order);        
+以数据项目来选取
+### select_w($where,$page,$pagesize);                        
+以where决定选取
+### select($kind,$where,$page,$pagesize,$order);             
+以内容种类决定选取
+### insert($value,$kind,$upid,$author);                      
+插入函数
+### update_w($columns,$value,$where,$author);                
+where来修改数据
+### update($value,$id,$kind,$upid,$author,$where);           
+根据id或者其他项目来修改数据
+### delete_w($where,$author);                                
+根据where或者作者来删除数据
+### delete($id,$kind,$upid,$author,$where);                  
+根据id,种类或其他来删除数据
+### add_one($id,$kind,$upid,$author,$where);                 
+增加1
+### del_one($id,$kind,$upid,$author,$where);                 
+减去1
 
 
 
