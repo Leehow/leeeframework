@@ -50,7 +50,7 @@ riji(日记).尽量用英文命名更加高速快捷
 
 
 ## cont组件
-cont组件为静态类直接可以用content::来加载
+cont组件为静态类直接可以用content::来加载,本组件作用用于查看和修改数据
 <br />
 ### content::select($kind_con, $kind, $page, $pagesize, $where, $ordercolumns, $deasc)
 content::select(数据类别, 从属数据类别(可数组), 页码(默认0第一页), 每页数据数量(默认30), $where(sql语句里的where), $ordercolumns(sql语句里的order的字段), $deasc(排序方式asc或desc));
@@ -75,7 +75,43 @@ content::change(要修改的id,要修改的内容,字段);
 content::delete(内容的id,父id,类别)
 <br />需要删除的位置,这个也容易理解
 
+## reply组件
+reply组件用来查看和修改回复
+### reply::select($cid, $page, $pagesize, $ordercolumns, $deasc)
+查看回复函数.$cid是内容的id,这是哪个内容的回复就是哪个内容的id.其他参数和cont组件一致,可以参考上面
+### reply::insert($content,$cid,$limitwords)
+录入回复函数,参数同样根cont一致
+### reply::change($reid,$content)
+修改回复内容
+### reply::delete($reid)
+删除回复内容
 
+## usr组件
+usr组件用于管理用户信息,针对用户usr表,与data表无关
+### usr::register($usr,$psw)
+注册用户,仅录入到usr表,两个参数分别是用户名和密码
+### usr::change_psw($usr,$psw)
+修改密码,参数分别是用户名和新密码
+### usr::login($usr,$psw)
+用户注册,同样用户名密码
+### usr::logout()
+注销用户
+
+## user_manage组件
+user_manage组件用于用户扩展信息的管理
+### user_manage::select($kind, $userid, $page, $pagesize)
+user_manage::select(类别, 用户id, 页码, 每页多少数据)
+<br />可以载入用户扩展信息,比如用户名称性别等等,$kind可以为数组,如果没有$kind则载入所有用户扩展信息,若没有$userid则载入自己的用户信息
+### user_manage::create($userid)
+创建一个新用户的所有扩展信息,$userid是用户的id,没有则创建登录用户的信息.扩展信息项目在kern/core/lib/config.php中.可以直接修改
+### user_manage::change($kid,$value)
+修改id为$kid的信息
+### user_manage::delete()
+删除登录用户的所有信息(慎用)
+### user_manage::change_admin($userid,$kid,$value)
+未登录状态下的用户信息修改
+### user_manage::delete_admin($userid)
+未登录状态下用户信息删除(更慎用)
 
 
 

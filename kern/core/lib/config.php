@@ -15,7 +15,7 @@ define("CHANGETIME","data_changetime" );
 
 //类别的定义
 class get_kind{
-    //定义用户属性的参数
+    //定义用户扩展信息的参数
     static $kind_user    = array(
                         usr_name,
                         usr_ip,
@@ -29,7 +29,7 @@ class get_kind{
                         usr_msg_tap,    //消息id
                         usr_msg_hide    //过期消息id
                         );
-    //初始化用户数据
+    //初始化用户扩展信息数据
     static function ini_user($userid){
         $create_user    = array(
                         usr_name	=> "用户_".$userid,
