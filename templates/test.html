@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- jQuery文件 -->
+        <script src="./libs/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                var k=0,i;
+                i=$(".frame");
+                while(k<5){
+                    var j;
+                    j=i.clone().attr("id",k);
+                    j.children(".child1").text(k);
+                    j.children(".child2").text(k+'1');
+                    j.children(".child3").text(k+'2');
+                    j.children(".child4").text(k+'3');
+                    ++k;
+                    i.after(j);
+                }
+                i.hide();
+                
+            });
+        </script>
+    </head>
+    <body>
+        <div class="frame">
+            <div class="child1">123</div>
+            <div class="child2">456</div>
+            <div class="child3">789</div>
+            <div class="child4">1032</div>
+        </div>
+    </body>
+    
+</html>
