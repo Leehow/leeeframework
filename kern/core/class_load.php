@@ -24,9 +24,9 @@ class class_load {
 	static function get_depend($updir="./") {
             $libdir="lib/";
             self::load($updir, null, "mysql_config");
-            self::load($updir.$libdir, self::core_dir, "config");
-            self::load($updir.$libdir, self::core_dir, "SaeMysql.class");//依赖包,如果用sae的童鞋可以直接注释掉这个
-            self::load($updir.$libdir, self::core_dir, "SaeMail.class");
+            self::load($updir, self::core_dir.$libdir, "config");
+            self::load($updir, self::core_dir.$libdir, "SaeMysql.class");//依赖包,如果用sae的童鞋可以直接注释掉这个
+            self::load($updir, self::core_dir.$libdir, "SaeMail.class");
             self::load($updir, self::core_dir, "sql_use");
             self::load($updir, self::core_dir, "sql_use_k");      //这个载入针对性写的sql_use类
             self::load($updir, self::core_dir, "data_use");

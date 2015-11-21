@@ -14,7 +14,7 @@ class lee {
 	
 	static function get_ini($updir="./"){
 		require_once $updir.'kern/core/class_load.php';
-		self::class_load( "plugIn/","config",$updir );
+//		self::class_load( "plugIn/","config",$updir );
 		class_load::get_depend($updir);
 	}
 	
