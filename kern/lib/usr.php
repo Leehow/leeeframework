@@ -17,7 +17,7 @@ class usr {
 	protected $table    = "usr";
         protected $idcol    = "usr_id";//用户id字段
 	protected $usr_col  = "username";
-	protected $psw_co   = "password";
+	protected $psw_col   = "password";
 	protected $usr;
 	protected $psw;
 	protected $values;
@@ -26,17 +26,15 @@ class usr {
         
                         //抽象方法初始化类
 	static function ini(){
-            $c=new usr_check();
+            $c=new usr();
             return $c;
         }
 	
 	//设定值
-	function set_values($usr,$psw=null,$values=null) {
+	function set_values($usr,$psw=null) {
 		$this->usr=$usr;
                 if(!empty($psw))
 		$this->psw=$psw;
-		if (!empty($values))
-		$this->values=$values;
 	}
 	
 	//-----------------验证部分----------------------
@@ -86,10 +84,7 @@ class usr {
 	
 	//将注册信息录入数据库(可重构)
 	protected function register_in() {
-		if (!empty($this->values)){
-                    $val=','.data_use::format_values($this->values);
-                }
-		return sql_use::insert($this->table, "$this->usr_col,$this->psw_col$col", "'$this->usr','$this->psw'$val");
+		return sql_use::insert($this->table, "$this->usr_col,$this->psw_col", "'$this->usr','$this->psw'");
 	}
 	
 	
@@ -124,7 +119,7 @@ class usr {
         
 	//$obj->loginf($usr,$psw)	验证若用户合法则登录成功
 	function loginf($usr,$psw) {
-		$this->set_values($usr,$psw,null);
+		$this->set_values($usr,$psw);
 		if (0!=($result=$this->check_psw($usr,$psw))) {
 			$id=$result[$this->idcol];
 			$out=self::out_tkid($id);
