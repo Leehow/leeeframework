@@ -62,6 +62,9 @@ class sql_use_k {
         if(!$page){
             $page=0;
         }
+        if(!$pagesize){
+            $pagesize=30;
+        }
         $limit_begin=$page*$pagesize;
         $limit_num=$pagesize;
         $limit=$limit_begin.",".$limit_num;
