@@ -144,9 +144,8 @@ class sql_use_k {
                 if(!$author){
                     die("请登录后重试！");
                 }
-                
-                $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         }
+        $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         if(!$columns){
             $columns=self::$data_columns[content];
         }
@@ -188,8 +187,8 @@ class sql_use_k {
             if(!$author){
                 die("请登录后重试！");
             }
-            $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         }
+        $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         return sql_use::delet(self::$data_table, $where);
     }
     
@@ -218,11 +217,11 @@ class sql_use_k {
     
     //根据id决定,数据+1
     static function add_one($id=null,$kind=null,$upid=null,$author=null,$where=null){
-        if(!$author){
-            $author= data_use::get_usr('userid');
-            if(!$author){
-                die("请登录后重试！");
-            }
+        if($author){
+//            $author= data_use::get_usr('userid');
+//            if(!$author){
+//                die("请登录后重试！");
+//            }
             $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         }
         $columns=self::$data_columns[content];
@@ -241,11 +240,11 @@ class sql_use_k {
     }
     //根据id决定,数据-1
     static function del_one($id=null,$kind=null,$upid=null,$author=null,$where=null){
-        if(!$author){
-            $author= data_use::get_usr('userid');
-            if(!$author){
-                die("请登录后重试！");
-            }
+        if($author){
+//            $author= data_use::get_usr('userid');
+//            if(!$author){
+//                die("请登录后重试！");
+//            }
             $where= $where." and ".self::$data_columns[author]."=".$author;    //只能修改自己的
         }
         $columns=self::$data_columns[content];
