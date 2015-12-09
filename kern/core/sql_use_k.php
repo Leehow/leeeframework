@@ -104,7 +104,14 @@ class sql_use_k {
                 if($where[0]=="("){
                     $no_u=1;
                 }
-                $where=$where." and (".$kind_where.")";
+                $where="(".$kind_where.") and ".$where;
+//                if($where[0]=="G"){
+//                    $where=$kind_where." ".$where;
+//                }
+//                else{
+//                    $where=$where." and (".$kind_where.")";
+//                }
+                
             }
             else{
                 $where=$kind_where;
@@ -139,6 +146,9 @@ class sql_use_k {
     
     //根据where来决定更新项目 $value同样为种类
     static function update_w($columns=null,$value,$where,$author=null){
+        if(!$where){
+            die("没有找到要删除的项目");
+        }
         if(!$author){
                 $author= data_use::get_usr('userid');
                 if(!$author){
@@ -165,6 +175,9 @@ class sql_use_k {
     
     //直接根据id来更新数据
     static function update($value,$id=null,$kind=null,$upid=null,$author=null,$where=null){
+        if(!$id && !$kind && !$upid && !$author && !$where){
+            die("更新代码错误!");
+        }
         if(!$where){
             $where="1=1";
         }
@@ -182,6 +195,9 @@ class sql_use_k {
     
     //删除where决定的的数据
     static function delete_w($where,$author=null){
+        if(!$where){
+            die("没有找到要删除的项目");
+        }
         if(!$author){
             $author= data_use::get_usr('userid');
             if(!$author){
@@ -194,6 +210,9 @@ class sql_use_k {
     
     //删除id决定的数据
     static function delete($id=null,$kind=null,$upid=null,$author=null,$where=null){
+        if(!$id && !$kind && !$upid && !$author && !$where){
+            die("删除代码错误!");
+        }
         if (!$where){
             $where="1=1";
         }
@@ -217,6 +236,9 @@ class sql_use_k {
     
     //根据id决定,数据+1
     static function add_one($id=null,$kind=null,$upid=null,$author=null,$where=null){
+        if (!$where){
+            $where="1=1";
+        }
         if($author){
 //            $author= data_use::get_usr('userid');
 //            if(!$author){
@@ -238,8 +260,11 @@ class sql_use_k {
         $result=sql_use::update_addone(self::$data_table, $columns, $where);
         return $result;
     }
-    //根据id决定,数据-1
+    //根据id决定,数据-1 
     static function del_one($id=null,$kind=null,$upid=null,$author=null,$where=null){
+        if (!$where){
+            $where="1=1";
+        }
         if($author){
 //            $author= data_use::get_usr('userid');
 //            if(!$author){
